@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sunday School - Admin Dashboard</title>
+  <style>
+    
+    /* Header */
+    header {
+      background: var(--pastel-purple);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left h1 {
+      margin: 0;
+      color: #3a4667;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      list-style: none;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #527b80;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f06da6;
+    }
+
+ 
+       header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-right {
+        margin-top: 1rem;
+        gap: 1rem;
+      }
+
+        .login-box {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      color: #3a4667;
+      font-weight: bold;
+      font-size: 1.1rem;
+      background: var(--pastel-mint);
+      padding: 6px 14px;
+      border-radius: 18px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .login-box:hover {
+      background: var(--pastel-pink);
+    }
+
+    .login-icon {
+      font-size: 1.3rem;
+      vertical-align: middle;
+    }
+    footer {
+      background: var(--pastel-peach);
+      padding: 2rem 1rem 1rem 1rem;
+      color: #555;
+      text-align: center;
+      font-size: 1.06rem;
+      border-top: 1px solid #ececec;
+    }
+
+    footer p {
+      margin: 0.3em 0;
+    }
+    :root {
+      --pastel-purple: #d7d9f2;
+      --pastel-blue: #e4ecf6;
+      --pastel-mint: #cbe6e4;
+      --pastel-pink: #f6dde8;
+      --pastel-peach: #faede7;
+      --pastel-ivory: #f6f1eb;
+      --navy-blue: #2c3d6e;
+      --card-shadow: 0 8px 32px rgba(44, 61, 110, 0.07);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+      min-height: 100vh;
+      color: #444;
+    }
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      background: var(--pastel-blue);
+      width: 230px;
+      padding: 2rem 1.2rem 1rem 1.2rem;
+      box-shadow: 2px 0 9px rgba(44, 61, 110, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 100vh;
+    }
+    .sidebar-title {
+      font-size: 1.35rem;
+      font-weight: bold;
+      color: var(--navy-blue);
+      margin-bottom: 1.7rem;
+      text-align: center;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .menu-item {
+      background: var(--pastel-peach);
+      color: #3a4667;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 1.13rem;
+      padding: 12px 17px;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      box-shadow: 0 3px 13px rgba(200, 150, 150, 0.07);
+      transition: background 0.2s, color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .menu-item.active,
+    .menu-item:hover {
+      background: var(--pastel-pink);
+      color: #ae4879;
+      outline: 2px solid var(--pastel-mint);
+    }
+    .main-panel {
+      flex: 1;
+      padding: 2rem 0.7rem 2rem 0.2rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .center-card {
+      background: rgba(255, 255, 255, 0.93);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      width: 98%;
+      max-width: 850px;
+      min-height: 650px;
+      padding: 2.4rem 2rem 1.7rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      animation: fadeInCard 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+    @keyframes fadeInCard {
+      from {
+        transform: translateY(32px) scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      width: 100%;
+      max-width: 560px;
+      margin: auto;
+    }
+    label {
+      font-weight: 600;
+      color: #477990;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+    select,
+    input[type='text'],
+    textarea,
+    input[type='file'] {
+      font-size: 1.02rem;
+      border-radius: 10px;
+      border: 2px solid var(--pastel-mint);
+      padding: 8px 13px;
+      background: #fff;
+      width: 100%;
+      color: #527b80;
+      box-sizing: border-box;
+      margin-bottom: 4px;
+    }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--pastel-pink);
+    }
+    textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .upload-btn,
+    .add-btn {
+      background: var(--pastel-mint);
+      color: #3a4667;
+      border: none;
+      border-radius: 15px;
+      padding: 10px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.07);
+    }
+    .upload-btn:hover,
+    .add-btn:hover {
+      background: var(--pastel-pink);
+      color: #ae4879;
+    }
+    .section-title {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #97b7d3;
+      margin: 1.2rem auto 0.8rem auto;
+      text-align: center;
+    }
+    .worksheet-preview-section,
+    .test-preview-section {
+      text-align: center;
+      margin: 1.5rem auto 0;
+      max-width: 900px;
+      width: 100%;
+    }
+    .worksheet-grid,
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.3rem;
+      margin-top: 1.1rem;
+    }
+    .worksheet-card,
+    .test-card {
+      background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
+      border-radius: 20px;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+      padding: 1rem 1rem 1.1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform 0.22s;
+      cursor: pointer;
+      animation: fadeInCard 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      margin-bottom: 7px;
+    }
+    .worksheet-card:hover,
+    .test-card:hover {
+      transform: translateY(-7px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(80, 120, 200, 0.15);
+    }
+    .worksheet-icon,
+    .test-icon {
+      font-size: 2rem;
+      margin-bottom: 0.45rem;
+      color: #527b80;
+    }
+    .worksheet-title,
+    .test-title {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: #477990;
+      margin-bottom: 0.22rem;
+    }
+    .worksheet-desc,
+    .test-desc {
+      font-size: 0.97rem;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+    .worksheet-file,
+    .test-file {
+      font-size: 0.98rem;
+      color: #5a6491;
+      margin-bottom: 0.4rem;
+      margin-top: 0.18rem;
+      word-break: break-all;
+    }
+    .worksheet-link,
+    .test-link {
+      display: inline-block;
+      margin-top: auto;
+      background: var(--pastel-peach);
+      color: #3a4667;
+      text-decoration: none;
+      padding: 6px 13px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.09);
+    }
+    .worksheet-link:hover,
+    .test-link:hover {
+      background: var(--pastel-pink);
+      color: #c54b7b;
+    }
+  </style>
+</head>
+<body>
+    <header>
+    <div class="header-left">
+      <h1>Sunday School</h1>
+    </div>
+    <div class="header-right">
+      <nav>
+        <ul>
+          <li><a href="#home-section">Home</a></li>
+          <li><a href="#about-section">About Us</a></li>
+          <li><a href="#gallery-section">Gallery</a></li>
+          <li><a href="#chatbot-container">Bot</a></li>
+        </ul>
+      </nav>
+      <a href="login1.html" class="login-box" aria-label="Login">
+        <span class="login-icon">👤</span> Login
+      </a>
+    </div>
+  </header>
+<div class="dashboard-container">
+  <div class="sidebar">
+    <div class="sidebar-title">👤 Admin Dashboard</div>
+    <div class="menu">
+      <button class="menu-item active" id="nav-upload">🗂️ Upload Worksheet</button>
+      <button class="menu-item" id="nav-test">📝 Manage Test</button>
+    </div>
+  </div>
+  <div class="main-panel">
+    <div class="center-card" id="center-content">
+      <div class="welcome-title">Upload Worksheets or Manage Tests</div>
+      <div class="welcome-desc">Select a menu option to get started.</div>
+    </div>
+  </div>
+</div>
+  <footer>
+    <p>Contact Us:</p>
+    <p>
+      Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a>
+      &nbsp; | &nbsp; Phone: +91-9876543210
+    </p>
+    <p>123 Church Lane, Community Center, Your City</p>
+    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
+  </footer>
+<script>
+  const navUpload = document.getElementById('nav-upload');
+  const navTest = document.getElementById('nav-test');
+  const centerContent = document.getElementById('center-content');
+  const menuItems = document.querySelectorAll('.menu-item');
+  const booksList = {
+    old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
+    new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+  };
+  let worksheetData = {};
+  let testData = {};
+
+  function loadData() {
+    worksheetData = JSON.parse(localStorage.getItem('worksheetData')||'{}');
+    testData = JSON.parse(localStorage.getItem('testData')||'{}');
+  }
+  function saveWorksheetData() {
+    localStorage.setItem('worksheetData', JSON.stringify(worksheetData));
+  }
+  function saveTestData() {
+    localStorage.setItem('testData', JSON.stringify(testData));
+  }
+  function setActiveMenu(id) {
+    menuItems.forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  function populateBooks(selectElem) {
+    selectElem.innerHTML = '<option value="">-- Select Book --</option>';
+    Object.values(booksList).flat().forEach(book => {
+      const op = document.createElement('option');
+      op.value = book; op.textContent = book;
+      selectElem.appendChild(op);
+    });
+  }
+
+  // Upload Worksheet Panel
+  navUpload.addEventListener('click', () => {
+    setActiveMenu('nav-upload');
+    loadData();
+    centerContent.innerHTML = `
+      <h2 class="section-title">Upload Worksheet</h2>
+      <form id="worksheet-upload-form">
+        <label for="book-select">Select Book:</label>
+        <select id="book-select" required></select>
+        <label for="icon">Worksheet Icon:</label>
+        <select id="icon">
+          <option value="📄" selected>📄 Document</option>
+          <option value="📝">📝 Writing</option>
+          <option value="🖊">🖊 Pencil</option>
+          <option value="🎨">🎨 Art</option>
+        </select>
+        <label for="title">Worksheet Title:</label>
+        <input type="text" id="title" required>
+        <label for="desc">Description:</label>
+        <textarea id="desc"></textarea>
+        <label for="file">Upload File (PDF):</label>
+        <input type="file" id="file" accept="application/pdf" required>
+        <button type="submit" class="upload-btn">Upload Worksheet</button>
+      </form>
+      <div class="worksheet-preview-section">
+        <h3>Worksheets Preview</h3>
+        <div id="worksheet-grid" class="worksheet-grid"></div>
+      </div>
+    `;
+    const bookSelect = document.getElementById('book-select');
+    populateBooks(bookSelect);
+    const worksheetGrid = document.getElementById('worksheet-grid');
+
+    function showWorksheets(book) {
+      worksheetGrid.innerHTML = '';
+      if (!book || !worksheetData[book] || worksheetData[book].length === 0) {
+        worksheetGrid.textContent = 'No worksheets yet for this book.';
+        return;
+      }
+      worksheetData[book].forEach(ws => {
+        const card = document.createElement('div');
+        card.className = 'worksheet-card';
+        card.innerHTML = `
+          <div class="worksheet-icon">${ws.icon}</div>
+          <div class="worksheet-title">${ws.title}</div>
+          <div class="worksheet-desc">${ws.desc}</div>
+          <div class="worksheet-file">File: ${ws.fileName}</div>
+          <a href="${ws.fileUrl}" class="worksheet-link" download>Download PDF</a>
+        `;
+        worksheetGrid.appendChild(card);
+      });
+    }
+    bookSelect.addEventListener('change', () => showWorksheets(bookSelect.value));
+    document.getElementById('worksheet-upload-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const book = bookSelect.value;
+      if (!book) return alert('Please select a book.');
+      const icon = document.getElementById('icon').value;
+      const title = document.getElementById('title').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
+      if (!file) return alert("Please upload a PDF file.");
+      if (!worksheetData[book]) worksheetData[book] = [];
+      const fileUrl = URL.createObjectURL(file);
+      worksheetData[book].push({ icon, title, desc, fileUrl, fileName: file.name });
+      saveWorksheetData();
+      e.target.reset();
+      showWorksheets(book);
+      alert(`Worksheet uploaded for ${book}!`);
+    });
+    // Show current (empty) unless already selected
+    showWorksheets(bookSelect.value);
+  });
+
+  // Manage Test Questions Panel
+  navTest.addEventListener('click', () => {
+    setActiveMenu('nav-test');
+    loadData();
+    centerContent.innerHTML = `
+      <h2 class="section-title">Manage Test Questions</h2>
+      <form id="test-question-form">
+        <label for="book-select-test">Select Book:</label>
+        <select id="book-select-test" required></select>
+        <label for="qtype">MCQ:</label>
+       
+        
+        </select>
+        <label for="question">Question:</label>
+        <input type="text" id="question" required>
+        <div id="mcq-options-container">
+          <label>Option 1: <input type="text" id="opt1" required></label>
+          <label>Option 2: <input type="text" id="opt2" required></label>
+          <label>Option 3: <input type="text" id="opt3" required></label>
+          <label>Correct Option (1, 2, or 3): <input type="number" id="correctOpt" min="1" max="3" required></label>
+        </div>
+        <label id="answer-label" style="display:none;">Answer:</label>
+        <input type="text" id="answer" style="display:none;">
+        <button type="submit" class="add-btn">Add Question</button>
+      </form>
+      <div class="test-preview-section">
+        <h3>Test Questions for Selected Book</h3>
+        <div id="test-question-list" class="question-list"></div>
+      </div>
+    `;
+    const testBookSelect = document.getElementById('book-select-test');
+    populateBooks(testBookSelect);
+    const qtype = document.getElementById('qtype');
+    const mcqOptionsContainer = document.getElementById('mcq-options-container');
+    const answerLabel = document.getElementById('answer-label');
+    const answerInput = document.getElementById('answer');
+    const questionListDiv = document.getElementById('test-question-list');
+    function renderTestQuestions(book) {
+      questionListDiv.innerHTML = '';
+      if (!book || !testData[book] || testData[book].length === 0) {
+        questionListDiv.textContent = 'No questions for this book yet.';
+        return;
+      }
+      testData[book].forEach((q, i) => {
+        let html = `<div class="question-preview"><strong>[${q.type.toUpperCase()}]</strong> ${q.question}<br>`;
+        if (q.type === "mcq") {
+          html += `Options: ${q.options.join(", ")}<br>Correct: ${q.options[q.correctOption - 1]}</div>`;
+        } else if (q.type === "fill" || q.type === "memory") {
+          html += `Answer: ${q.answer}</div>`;
+        }
+        questionListDiv.innerHTML += html;
+      });
+    }
+    testBookSelect.addEventListener('change', () => renderTestQuestions(testBookSelect.value));
+    qtype.addEventListener('change', () => {
+      if (qtype.value === "mcq") {
+        mcqOptionsContainer.style.display = "block";
+        answerLabel.style.display = "none";
+        answerInput.style.display = "none";
+      } else {
+        mcqOptionsContainer.style.display = "none";
+        answerLabel.style.display = "block";
+        answerInput.style.display = "block";
+      }
+    });
+    document.getElementById('test-question-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const book = testBookSelect.value;
+      if (!book) return alert("Please select a book.");
+      if (!testData[book]) testData[book] = [];
+      const type = qtype.value;
+      const question = document.getElementById('question').value.trim();
+      if (type === "mcq") {
+        const opts = [
+          document.getElementById('opt1').value.trim(),
+          document.getElementById('opt2').value.trim(),
+          document.getElementById('opt3').value.trim(),
+        ];
+        const correctOpt = Number(document.getElementById('correctOpt').value);
+        if (opts.some(o => !o) || !correctOpt || correctOpt < 1 || correctOpt > 3) {
+          alert("Please fill all MCQ options and provide a valid correct option number");
+          return;
+        }
+        testData[book].push({ type, question, options: opts, correctOption: correctOpt });
+      } else {
+        const answer = answerInput.value.trim();
+        if (!answer) return alert("Please enter an answer.");
+        testData[book].push({ type, question, answer });
+      }
+      saveTestData();
+      e.target.reset();
+      qtype.dispatchEvent(new Event('change'));
+      renderTestQuestions(book);
+      alert(`Question added for ${book}`);
+    });
+    renderTestQuestions(testBookSelect.value);
+    qtype.dispatchEvent(new Event('change'));
+  });
+
+  // Default load
+  navUpload.click();
+</script>
+</body>
+</html>

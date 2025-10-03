@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sunday School Admin Dashboard</title>
+  <style>
+    :root {
+      --pastel-purple: #d7d9f2;
+      --pastel-blue: #e4ecf6;
+      --pastel-mint: #cbe6e4;
+      --pastel-pink: #f6dde8;
+      --pastel-peach: #faede7;
+      --pastel-ivory: #f6f1eb;
+      --accent-color: #f06da6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+      min-height: 100vh;
+      color: #444;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: var(--pastel-purple);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left h1 {
+      margin: 0;
+      color: #3a4667;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      list-style: none;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #527b80;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      background:
+                  url('https://media.istockphoto.com/id/1317323736/photo/a-view-up-into-the-trees-direction-sky.jpg?s=612x612&w=0&k=20&c=i4HYO7xhao7CkGy7Zc_8XSNX_iqG0vAwNsrH1ERmw2Q=') center/cover no-repeat;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      color: #18181a;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      animation: slideDown 1s ease forwards;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Dashboard menu cards */
+    .dashboard-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .menu-card {
+      background: linear-gradient(120deg, var(--pastel-mint), var(--pastel-blue));
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(80,120,200,0.18);
+    }
+
+    .menu-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      color: #3a4667;
+    }
+
+    .menu-card p {
+      font-size: 1rem;
+      color: #444;
+    }
+
+    /* Animated graphics (floating icons) */
+    .menu-card::before {
+      content: "✏️📄📝";
+      position: absolute;
+      top: -20px;
+      right: -30px;
+      font-size: 3rem;
+      opacity: 0.15;
+      animation: float 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(10deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    footer {
+      background: var(--pastel-peach);
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 1.06rem;
+      border-top: 1px solid #ececec;
+    }
+
+    footer p { margin: 0.3em 0; }
+
+    @media (max-width: 700px) {
+      .hero h2 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>Sunday School Admin</h1>
+    </div>
+    <div class="header-right">
+      <nav>
+        <ul>
+          <li><a href="#dashboard-menu">Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Welcome, Admin!</h2>
+      <p>Manage tests and worksheets efficiently with just a click. Your Sunday School dashboard is your control center.</p>
+    </section>
+
+    <section id="dashboard-menu" class="dashboard-menu">
+      <div class="menu-card" onclick="location.href='admin-test.html'">
+        <h3>Upload Test</h3>
+        <p>Create and manage new tests for your Sunday School students.</p>
+      </div>
+
+      <div class="menu-card" onclick="location.href='admin-worksheetupload.html'">
+        <h3>Upload Worksheet</h3>
+        <p>Upload worksheets for each book and keep your lessons organized.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Contact Us: Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a> | Phone: +91-9876543210</p>
+    <p>123 Church Lane, Community Center, Your City</p>
+    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunday School - User Dashboard</title>
+<style>
+  :root {
+    --pastel-purple: #d7d9f2;
+    --pastel-blue: #e4ecf6;
+    --pastel-mint: #cbe6e4;
+    --pastel-pink: #f6dde8;
+    --pastel-peach: #faede7;
+    --pastel-ivory: #f6f1eb;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+    min-height: 100vh;
+    color: #444;
+  }
+  header {
+    background: var(--pastel-purple);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  header h1 { margin:0; font-size:2rem; color:#3a4667; font-weight:bold;}
+  header a { text-decoration:none; color:#3a4667; font-weight:bold; font-size:1rem; }
+  .content { max-width: 1000px; margin:2rem auto; padding:0 1rem; }
+  label { font-weight:600; color:#477990; margin-right:10px;}
+  select { font-size:1.05rem; padding:8px 14px; border-radius:10px; border:2px solid var(--pastel-mint);}
+  .section-title { font-size:1.5rem; font-weight:700; color:#527b80; margin:1rem 0 0.8rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.4rem; }
+  .card { background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
+          border-radius:18px; padding:1.4rem; display:flex; flex-direction:column; box-shadow:0 5px 15px rgba(50,50,70,0.08);}
+  .card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(80,120,180,0.18);}
+  .card-icon { font-size:2rem; margin-bottom:10px; }
+  .card-title { font-weight:700; font-size:1.1rem; margin-bottom:6px; color:#3a4667;}
+  .card-desc { font-size:0.95rem; margin-bottom:8px; color:#444;}
+  .card-file { font-size:0.9rem; margin-bottom:6px; color:#5a6491; word-break:break-word; }
+  .card-link { text-decoration:none; background:var(--pastel-peach); color:#3a4667; padding:6px 14px; border-radius:12px; font-weight:600; font-size:0.95rem; align-self:flex-start; }
+  .card-link:hover { background:var(--pastel-pink); color:#c54b7b; }
+  .test-form-area { margin-top:1.5rem; padding:1rem; border-radius:14px; background:var(--pastel-blue);}
+  .test-q-block { margin-bottom:1rem; }
+  .test-q-block label { margin-right:6px; }
+  .test-submit-btn { padding:10px 26px; background:var(--pastel-peach); border:none; border-radius:12px; font-weight:bold; cursor:pointer; }
+  .test-submit-btn:hover { background:var(--pastel-pink); color:#ae4879; }
+  .test-score-result { margin-top:1rem; font-weight:bold; color:#447799; font-size:1.1rem; text-align:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sunday School</h1>
+    <a href="index.html">home</a>
+  <a href="login1.html">👤 Login</a>
+</header>
+
+<div class="content">
+  <h2>Your Learning Dashboard</h2>
+  <label for="book-select">Select Book:</label>
+  <select id="book-select"><option value="">-- Select a book --</option></select>
+
+  <section class="worksheets-section">
+    <div class="section-title">Worksheets</div>
+    <div id="worksheet-grid" class="grid">Select a book to see worksheets.</div>
+  </section>
+
+  <section class="tests-section">
+    <div class="section-title">Tests</div>
+    <div id="test-form-area">Select a book to take a test.</div>
+  </section>
+</div>
+
+<script>
+  // ==== JSON DATA STORAGE ====
+  // Admin uploads should store this format in localStorage:
+  // localStorage.setItem('worksheetData', JSON.stringify({...}));
+  // localStorage.setItem('testData', JSON.stringify({...}));
+
+  const books = {
+    old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
+    new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+  };
+
+  const bookSelect = document.getElementById('book-select');
+  Object.values(books).flat().forEach(book => {
+    const opt = document.createElement('option');
+    opt.value = book;
+    opt.textContent = book;
+    bookSelect.appendChild(opt);
+  });
+
+  function getWorksheetData(){ return JSON.parse(localStorage.getItem('worksheetData')||'{}'); }
+  function getTestData(){ return JSON.parse(localStorage.getItem('testData')||'{}'); }
+
+  function showWorksheets(book){
+    const grid = document.getElementById('worksheet-grid');
+    grid.innerHTML='';
+    if(!book){ grid.textContent='Select a book to see worksheets.'; return; }
+    const wsData = getWorksheetData();
+    if(!wsData[book] || wsData[book].length===0){ grid.textContent=`No worksheets for ${book}.`; return; }
+    wsData[book].forEach(ws=>{
+      const card = document.createElement('div');
+      card.className='card';
+      card.innerHTML=`
+        <div class="card-icon">${ws.icon||'📄'}</div>
+        <div class="card-title">${ws.title||'Untitled'}</div>
+        <div class="card-desc">${ws.desc||''}</div>
+        ${ws.fileUrl ? `<div class="card-file">File: ${ws.fileName}</div><a class="card-link" href="${ws.fileUrl}" download>Download</a>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function showTestForm(book){
+    const area = document.getElementById('test-form-area');
+    area.innerHTML='';
+    if(!book){ area.textContent='Select a book to take a test.'; return; }
+    const testData = getTestData();
+    if(!testData[book] || testData[book].length===0){ area.textContent=`No test available for ${book}.`; return; }
+
+    const form = document.createElement('form');
+    form.className='test-form-area';
+    testData[book].forEach((q,idx)=>{
+      const block = document.createElement('div');
+      block.className='test-q-block';
+      if(q.type==='mcq'){
+        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div>` +
+        q.options.map((opt,i)=>`<label><input type="radio" name="mcq${idx}" value="${i+1}" required> ${opt}</label>`).join(' ');
+      }else{
+        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div>
+        <input type="text" name="txt${idx}" required>`;
+      }
+      form.appendChild(block);
+    });
+    form.innerHTML+=`<button class="test-submit-btn" type="submit">Submit Test</button>
+      <div id="test-score-result" class="test-score-result"></div>`;
+    area.appendChild(form);
+
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      let score=0,total=testData[book].length;
+      testData[book].forEach((q,idx)=>{
+        if(q.type==='mcq'){
+          const val=form.querySelector(`[name="mcq${idx}"]:checked`);
+          if(val && val.value==q.correctOption) score++;
+        }else{
+          const val=form.querySelector(`[name="txt${idx}"]`).value.trim().toLowerCase();
+          if(val===q.answer.trim().toLowerCase()) score++;
+        }
+      });
+      form.querySelector("#test-score-result").textContent=`Your Score: ${score} / ${total}`;
+    });
+  }
+
+  bookSelect.addEventListener('change', ()=>{
+    const book=bookSelect.value;
+    showWorksheets(book);
+    showTestForm(book);
+  });
+</script>
+
+</body>
+</html>

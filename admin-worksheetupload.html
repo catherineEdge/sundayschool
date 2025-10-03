@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Worksheet Upload</title>
+  <style>
+    :root {
+      --pastel-purple: #d7d9f2;
+      --pastel-blue: #e4ecf6;
+      --pastel-mint: #cbe6e4;
+      --pastel-pink: #f6dde8;
+      --pastel-peach: #faede7;
+      --pastel-ivory: #f6f1eb;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+      min-height: 100vh;
+      color: #444;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: var(--pastel-purple);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+    }
+    .header-left h1 {
+      margin: 0;
+      color: #3a4667;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      list-style: none;
+      padding: 0;
+    }
+    nav a {
+      text-decoration: none;
+      color: #527b80;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #f06da6;
+    }
+    .login-box {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      color: #3a4667;
+      font-weight: bold;
+      font-size: 1.1rem;
+      background: var(--pastel-mint);
+      padding: 6px 14px;
+      border-radius: 18px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .login-box:hover {
+      background: var(--pastel-pink);
+    }
+
+.main-content-area {
+  flex: 1 1 auto;
+  padding: 2.2rem 1.7rem;
+  width: 60%;          /* Increase the width here */
+  max-width: 1000px;   /* Optional: limit maximum width */
+  margin: 2rem auto 3rem;
+  background: rgba(255,255,255,0.92);
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(120,102,80,0.11);
+}
+    .admin-title {
+      text-align: center;
+      color: #97b7d3;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.3rem;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #477990;
+      font-size: 1rem;
+    }
+    select, input[type="text"], textarea, input[type="file"] {
+      font-size: 1.02rem;
+      border-radius: 10px;
+      border: 2px solid var(--pastel-mint);
+      padding: 9px 13px;
+      background: #fff;
+      width: 100%;
+      color: #527b80;
+      box-sizing: border-box;
+    }
+    select:focus, input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--pastel-pink);
+    }
+    textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .upload-btn {
+      background: var(--pastel-mint);
+      color: #3a4667;
+      border: none;
+      border-radius: 15px;
+      padding: 10px 0;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.07);
+    }
+    .upload-btn:hover {
+      background: var(--pastel-pink);
+      color: #ae4879;
+    }
+    .worksheet-preview-section {
+      text-align: center;
+      margin: 2.5rem auto 0;
+      max-width: 900px;
+    }
+    .worksheet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.3rem;
+    }
+    .worksheet-card {
+      position: relative;
+      background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
+      border-radius: 20px;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.10);
+      padding: 1.3rem 1.2rem 1.2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform 0.22s;
+      overflow: hidden;
+      animation: fadeInCard 1.1s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    .worksheet-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(80,120,200,0.16);
+    }
+    @keyframes fadeInCard {
+      from { transform: translateY(28px) scale(0.96); opacity: 0; }
+      to   { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .worksheet-icon { font-size: 2rem; margin-bottom: 0.5rem; color: #527b80; }
+    .worksheet-title { font-size: 1.08rem; font-weight: 600; color: #477990; margin-bottom: 0.28rem; }
+    .worksheet-desc { font-size: 0.97rem; color: #444; margin-bottom: 0.6rem; }
+    .worksheet-file { font-size: 0.98rem; color: #5a6491; margin-bottom: 0.5rem; margin-top: 0.2rem; word-break: break-all; }
+    .worksheet-link {
+      display: inline-block;
+      margin-top: auto;
+      background: var(--pastel-peach);
+      color: #3a4667;
+      text-decoration: none;
+      padding: 7px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.09);
+    }
+    .worksheet-link:hover { background: var(--pastel-pink); color: #c54b7b; }
+    .remove-btn {
+      background: #f06da6;
+      color: #fff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: background 0.2s;
+    }
+    .remove-btn:hover { background: #c54b7b; }
+    footer { background: var(--pastel-peach); padding: 2rem 1rem 1rem 1rem; color: #555; text-align: center; font-size: 1.06rem; border-top: 1px solid #ececec; }
+    footer p { margin-bottom: 0.3em; margin-top: 0.3em; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>Sunday School Admin</h1>
+    </div>
+    <div class="header-right">
+      <nav>
+        <ul>
+          <li><a href="admin-1dashboard.html">admin dashboard</a></li>
+          <li><a href="index.html">home</a></li>
+        
+        </ul>
+      </nav>
+      <a href="login1.html" class="login-box">👤 Admin</a>
+    </div>
+  </header>
+
+  <div class="main-content-area">
+    <h2 class="admin-title">Upload Worksheet</h2>
+    <form id="worksheet-upload-form">
+      <div>
+        <label for="testament">Choose Testament:</label>
+        <select id="testament" required>
+          <option value="">-- Select Testament --</option>
+          <option value="old">Old Testament</option>
+          <option value="new">New Testament</option>
+        </select>
+      </div>
+      <div>
+        <label for="book">Choose Book:</label>
+        <select id="book" required>
+          <option value="">-- Select Book --</option>
+        </select>
+      </div>
+      <div>
+        <label for="icon">Worksheet Icon:</label>
+        <select id="icon">
+          <option value="📄" selected>📄 Document</option>
+          <option value="📝">📝 Writing</option>
+          <option value="🖊">🖊 Pencil</option>
+          <option value="🎨">🎨 Art</option>
+        </select>
+      </div>
+      <div>
+        <label for="title">Worksheet Title:</label>
+        <input type="text" id="title" required>
+      </div>
+      <div>
+        <label for="desc">Description:</label>
+        <textarea id="desc"></textarea>
+      </div>
+      <div>
+        <label for="file">Upload File:</label>
+        <input type="file" id="file">
+      </div>
+      <button type="submit" class="upload-btn">Upload Worksheet</button>
+    </form>
+
+    <div class="worksheet-preview-section">
+      <h2>Worksheets Preview</h2>
+      <div id="worksheet-grid" class="worksheet-grid">
+        Select a book to view worksheets preview here.
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Contact Us: Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a> &nbsp; | &nbsp; Phone: +91-9876543210</p>
+    <p>123 Church Lane, Community Center, Your City</p>
+    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const books = {
+      old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
+      new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+    };
+
+    let worksheetData = {};
+
+    const testamentSelect = document.getElementById('testament');
+    const bookSelect = document.getElementById('book');
+    const worksheetGrid = document.getElementById('worksheet-grid');
+
+    testamentSelect.addEventListener('change', function() {
+      bookSelect.innerHTML = '<option value="">-- Select Book --</option>';
+      if (this.value && books[this.value]) {
+        books[this.value].forEach(book => {
+          const opt = document.createElement('option');
+          opt.value = book;
+          opt.textContent = book;
+          bookSelect.appendChild(opt);
+        });
+      }
+      updatePreview();
+    });
+
+    bookSelect.addEventListener('change', updatePreview);
+
+    document.getElementById('worksheet-upload-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const book = bookSelect.value;
+      const icon = document.getElementById('icon').value;
+      const title = document.getElementById('title').value.trim();
+      const desc = document.getElementById('desc').value.trim();
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
+
+      if (!book) { alert("Please select a book!"); return; }
+
+      if (!worksheetData[book]) worksheetData[book] = [];
+      let fileUrl = "";
+      let fileName = "";
+
+      if (file) {
+        fileUrl = URL.createObjectURL(file);
+        fileName = file.name;
+      }
+worksheetData[book].push({icon, title, desc, fileUrl, fileName});
+
+// Save to localStorage
+localStorage.setItem('worksheetData', JSON.stringify(worksheetData));
+
+this.reset();
+updatePreview(book);
+alert("Worksheet uploaded for " + book + "!");
+
+    });
+
+    function updatePreview(selectedBook = "") {
+      worksheetGrid.innerHTML = "";
+      selectedBook = selectedBook || bookSelect.value;
+
+      if (selectedBook && worksheetData[selectedBook] && worksheetData[selectedBook].length) {
+        worksheetData[selectedBook].forEach((ws, index) => {
+          const card = document.createElement('div');
+          card.className = "worksheet-card";
+          card.innerHTML = `
+            <div class="worksheet-icon">${ws.icon}</div>
+            <div class="worksheet-title">${ws.title}</div>
+            <div class="worksheet-desc">${ws.desc}</div>
+            ${ws.fileUrl ? `<div class="worksheet-file">File: ${ws.fileName}</div>
+              <a href="${ws.fileUrl}" class="worksheet-link" download>Download</a>` : ''}
+            <button class="remove-btn" data-index="${index}">Remove</button>
+          `;
+          worksheetGrid.appendChild(card);
+        });
+
+        // Attach remove button events
+        document.querySelectorAll('.remove-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const idx = this.dataset.index;
+            worksheetData[selectedBook].splice(idx, 1);
+            updatePreview(selectedBook);
+          });
+        });
+
+      } else if (selectedBook) {
+        worksheetGrid.innerHTML = `No worksheets yet for ${selectedBook}.`;
+      } else {
+        worksheetGrid.innerHTML = `Select a book to view worksheets preview here.`;
+      }
+    }
+  </script>
+</body>
+</html>

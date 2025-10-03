@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sunday School - Test Creation</title>
+  <style>
+    :root {
+      --pastel-purple: #d7d9f2;
+      --pastel-blue: #e4ecf6;
+      --pastel-mint: #cbe6e4;
+      --pastel-pink: #f6dde8;
+      --pastel-peach: #faede7;
+      --pastel-ivory: #f6f1eb;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(
+        to right,
+        var(--pastel-purple),
+        var(--pastel-blue),
+        var(--pastel-mint),
+        var(--pastel-pink),
+        var(--pastel-peach),
+        var(--pastel-ivory)
+      );
+      min-height: 100vh;
+      color: #444;
+    }
+
+    /* Header */
+    header {
+      background: var(--pastel-purple);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left h1 {
+      margin: 0;
+      color: #3a4667;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      list-style: none;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #527b80;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f06da6;
+    }
+
+    .login-box {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      color: #3a4667;
+      font-weight: bold;
+      font-size: 1rem;
+      background: var(--pastel-mint);
+      padding: 6px 14px;
+      border-radius: 18px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .login-box:hover {
+      background: var(--pastel-pink);
+    }
+
+    .login-icon {
+      font-size: 1.2rem;
+      vertical-align: middle;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--pastel-peach);
+      padding: 2rem 1rem 1rem 1rem;
+      color: #555;
+      text-align: center;
+      font-size: 1rem;
+      border-top: 1px solid #ececec;
+      margin-top: 2rem;
+    }
+    footer p {
+      margin: 0.3em 0;
+    }
+
+    /* Test Creation Styles */
+    .container {
+      display: flex;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+    .form-section, .preview-section {
+      flex: 1;
+      margin: 10px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .form-section h2, .preview-section h2 {
+      margin-top: 0;
+      font-size: 18px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 14px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      background: #6b5b95;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #5a4b85;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    .test-card {
+      background: #fdfdfd;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 15px;
+    }
+    .test-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+    .test-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .test-desc {
+      font-size: 14px;
+    }
+    .question-preview {
+      background: #f9f9ff;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      position: relative;
+    }
+    .delete-btn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 14px;
+      line-height: 20px;
+      cursor: pointer;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+    }
+    .delete-btn:hover {
+      background: #d93636;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-left">
+      <h1>Sunday School</h1>
+    </div>
+    <div class="header-right">
+      <nav>
+        <ul>
+          <li><a href="admin-1dashboard.html">admin dashboard</a></li>
+          <li><a href="index.html">home</a></li>
+        
+        </ul>
+      </nav>
+      <a href="login1.html" class="login-box" aria-label="Login">
+        <span class="login-icon">👤</span> Login
+      </a>
+    </div>
+  </header>
+
+  <!-- Test Creation Page -->
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section">
+      <h2>Create Question</h2>
+      <label>Book Name:</label>
+      <select id="book">
+        <option value="">-- Select a Book --</option>
+        <option>Genesis</option>
+        <option>Exodus</option>
+        <option>Leviticus</option>
+        <option>Numbers</option>
+        <option>Deuteronomy</option>
+        <option>Matthew</option>
+        <option>Mark</option>
+        <option>Luke</option>
+        <option>John</option>
+        <option>Acts</option>
+        <option>Romans</option>
+        <option>Revelation</option>
+      </select>
+
+      <label>Question Type:</label>
+      <select id="qtype" onchange="toggleOptions()">
+        <option value="mcq">MCQ</option>
+        <option value="short">Short Answer</option>
+      </select>
+
+      <label>Question:</label>
+      <textarea id="question"></textarea>
+
+      <div id="options-container" style="display:none;">
+        <label>Options (comma separated):</label>
+        <textarea id="qoptions" placeholder="Option1, Option2, Option3"></textarea>
+      </div>
+
+      <label>Answer:</label>
+      <textarea id="answer"></textarea>
+
+      <button onclick="addQuestion()">Add Question</button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+      <h2>Test Preview</h2>
+      <div id="test-grid" class="test-grid"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Contact Us:</p>
+    <p>
+      Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a>
+      &nbsp; | &nbsp; Phone: +91-9876543210
+    </p>
+    <p>123 Church Lane, Community Center, Your City</p>
+    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    let testData = {};
+
+    function toggleOptions() {
+      const type = document.getElementById("qtype").value;
+      document.getElementById("options-container").style.display = 
+        (type === "mcq") ? "block" : "none";
+    }
+
+    function addQuestion() {
+      const book = document.getElementById("book").value.trim();
+      const type = document.getElementById("qtype").value;
+      const question = document.getElementById("question").value.trim();
+      const answer = document.getElementById("answer").value.trim();
+      const optionsInput = document.getElementById("qoptions").value.trim();
+
+      if (!book || !question || !answer) {
+        alert("Please fill all required fields!");
+        return;
+      }
+
+      const options = (type === "mcq" && optionsInput) ? optionsInput.split(",") : null;
+
+      if (!testData[book]) testData[book] = [];
+      testData[book].push({type, question, options, answer});
+      localStorage.setItem('testData', JSON.stringify(testData));
+
+
+      showAllPreviews();
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById("question").value = "";
+      document.getElementById("answer").value = "";
+      document.getElementById("qoptions").value = "";
+    }
+
+    function deleteQuestion(book, index) {
+      testData[book].splice(index, 1);
+      if (testData[book].length === 0) {
+        delete testData[book];
+      }
+      showAllPreviews();
+    }
+
+    function showAllPreviews() {
+      const grid = document.getElementById("test-grid");
+      grid.innerHTML = "";
+
+      Object.keys(testData).forEach(book => {
+        let questionsHTML = "";
+        testData[book].forEach((q, i) => {
+          questionsHTML += `
+            <div class="question-preview">
+              <button class="delete-btn" onclick="deleteQuestion('${book}', ${i})">×</button>
+              <strong>${i+1}. ${q.type.toUpperCase()}</strong><br>
+              <p>${q.question}</p>
+              ${q.options ? `<ul>${q.options.map(opt => `<li>${opt.trim()}</li>`).join("")}</ul>` : ""}
+              <em>Ans:</em> ${q.answer}
+            </div>
+          `;
+        });
+
+        grid.innerHTML += `
+          <div class="test-card">
+            <div class="test-icon">📘</div>
+            <div class="test-title">Test for ${book}</div>
+            <div class="test-desc">${questionsHTML}</div>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

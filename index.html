@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sunday School Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --pastel-purple: #d7d9f2;
+      --pastel-blue: #e4ecf6;
+      --pastel-mint: #cbe6e4;
+      --pastel-pink: #f6dde8;
+      --pastel-peach: #faede7;
+      --pastel-ivory: #f6f1eb;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(
+        to right,
+        var(--pastel-purple),
+        var(--pastel-blue),
+        var(--pastel-mint),
+        var(--pastel-pink),
+        var(--pastel-peach),
+        var(--pastel-ivory)
+      );
+      min-height: 100vh;
+      color: #444;
+      scroll-behavior: smooth;
+    }
+
+    /* Header */
+    header {
+      background: var(--pastel-purple);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-left h1 { margin: 0; color: #3a4667; font-size: 2rem; font-weight: bold; }
+    .header-right { display: flex; align-items: center; gap: 2rem; }
+    nav ul { display: flex; gap: 2rem; margin: 0; list-style: none; padding: 0; }
+    nav a { text-decoration: none; color: #527b80; font-weight: bold; font-size: 1rem; transition: color 0.3s; }
+    nav a:hover { color: #f06da6; }
+    .login-box {
+      display: flex; align-items: center; gap: 7px;
+      cursor: pointer; color: #3a4667; font-weight: bold; font-size: 1.1rem;
+      background: var(--pastel-mint); padding: 6px 14px; border-radius: 18px;
+      transition: background 0.2s; text-decoration: none;
+    }
+    .login-box:hover { background: var(--pastel-pink); }
+    .login-icon { font-size: 1.3rem; vertical-align: middle; }
+
+    main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+
+    section { padding-bottom: 2rem; }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      background: linear-gradient(rgba(247, 224, 225, 0.7), rgba(247, 224, 225, 0.7)),
+        url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      color: #3a4667;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero h2 { margin: 0 0 1rem 0; font-size: 2.8rem; font-weight: bold; text-shadow: 2px 2px 8px rgba(255,255,255,0.8);}
+    .hero p { font-size: 1.3rem; max-width: 700px; margin: 0 auto; text-shadow: 1px 1px 6px rgba(255,255,255,0.7); }
+
+    /* Gallery */
+    .gallery-section { background: rgba(255,255,255,0.75); border-radius:14px; padding:1.5rem; box-shadow:0 3px 9px rgba(0,0,0,0.04); margin-bottom:2rem;}
+    .gallery-section h3 { color:#97b7d3; margin-top:0; margin-bottom:1rem; text-align:center; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:14px;}
+    .gallery-grid img { width:100%; border-radius:12px; box-shadow:0 2px 8px rgba(150,170,200,0.15); background:#fff; transition: transform 0.2s ease, box-shadow 0.2s ease;}
+    .gallery-grid img:hover { transform: scale(1.05); box-shadow:0 6px 18px rgba(251,154,167,0.18); }
+
+    /* About */
+    .about-section { background: rgba(248,247,255,0.75); border-radius:14px; padding:2rem; box-shadow:0 3px 9px rgba(0,0,0,0.04); margin-bottom:2rem; }
+    .about-section h3 { margin-top:0; color:#8db5b7; font-size:1.4rem; margin-bottom:1rem; text-align:center;}
+    .about-section p { margin-bottom:0; color:#555; font-size:1.12rem; max-width:700px; margin-left:auto; margin-right:auto; line-height:1.6; }
+
+    .bible-verse { background: var(--pastel-ivory); border-radius:14px; padding:1.5rem 2rem; font-style:italic; font-size:1.2rem; color:#77685a; text-align:center; max-width:800px; margin:0 auto 3rem auto; box-shadow:0 2px 10px rgba(120,102,80,0.2); }
+
+    /* Events (Zig-Zag Animation) */
+    .events-section { background: rgba(255,250,245,0.85); border-radius:14px; padding:2rem; margin-bottom:2rem; box-shadow:0 3px 8px rgba(0,0,0,0.05); }
+    .events-section h3 { text-align:center; color:#6b5b95; margin-bottom:1.5rem;}
+    .event-container { display:flex; align-items:center; justify-content:space-between; margin:2rem 0; gap:2rem; opacity:0; transform:translateY(50px); transition: all 1s ease;}
+    .event-container.reverse { flex-direction: row-reverse; }
+    .event-container img { width:400px; border-radius:14px; box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+    .event-text { flex:1; }
+    .event-container.visible { opacity:1; transform:translateY(0); }
+
+    /* Teachers Section */
+    .teachers-section { background: rgba(240,245,255,0.85); border-radius:14px; padding:2rem; margin-bottom:2rem; box-shadow:0 3px 8px rgba(0,0,0,0.05);}
+    .teachers-section h3 { text-align:center; color:#5a4b85; margin-bottom:1.5rem;}
+    .teachers-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:1rem;}
+    .teacher-card { text-align:center; background:#fff; border-radius:12px; padding:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+    .teacher-card img { width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:0.5rem;}
+    .teacher-card h4 { margin:0.3rem 0 0.2rem 0; color:#3a4667;}
+    .teacher-card p { margin:0; font-size:0.9rem; color:#555; }
+
+    /* Testimonials */
+    .testimonials-section { background: rgba(255,255,255,0.85); border-radius:14px; padding:2rem; margin-bottom:2rem; box-shadow:0 3px 8px rgba(0,0,0,0.05);}
+    .testimonials-section h3 { text-align:center; color:#6b5b95; margin-bottom:1.5rem;}
+    .testimonial-card { background:#fdfdfd; border-radius:12px; padding:1rem; margin:1rem 0; box-shadow:0 2px 4px rgba(0,0,0,0.05); font-style:italic;}
+    .testimonial-card p { margin:0; font-size:1rem; color:#444; }
+
+    /* Footer */
+    footer { background: var(--pastel-peach); padding:2rem 1rem 1rem 1rem; color:#555; text-align:center; font-size:1.06rem; border-top:1px solid #ececec;}
+    footer p { margin:0.3em 0; }
+
+    @media(max-width:900px){ .gallery-grid, .teachers-grid { grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); } }
+    @media(max-width:600px){
+      header { flex-direction: column; align-items:flex-start; }
+      .header-right { margin-top:1rem; gap:1rem; }
+      .hero { padding:3rem 1rem; }
+      .hero h2 { font-size:2rem; }
+      .hero p { font-size:1rem; }
+      .event-container, .event-container.reverse { flex-direction: column !important; text-align:center; }
+      .event-container img { width:80%; margin:0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left"><h1>Sunday School</h1></div>
+    <div class="header-right">
+      <nav>
+        <ul>
+          <li><a href="#home-section">Home</a></li>
+          <li><a href="#about-section">About Us</a></li>
+          <li><a href="#gallery-section">Gallery</a></li>
+          <li><a href="#events-section">Events</a></li>
+          <li><a href="#teachers-section">Teachers</a></li>
+          <li><a href="#testimonials-section">Testimonials</a></li>
+        </ul>
+      </nav>
+      <a href="login1.html" class="login-box"><span class="login-icon">👤</span> Login</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="home-section" class="hero">
+      <h2>Welcome to Our Sunday School!</h2>
+      <p>Join us every Sunday for fun lessons, songs, activities, and crafts designed to help children grow in faith and friendship!</p>
+    </section>
+
+    <section id="gallery-section" class="gallery-section">
+      <h3>Gallery</h3>
+      <div class="gallery-grid">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsWzGU9ni7tIrj5kkG2Xr-K5emJ9xeUY7dsQ&s" alt="Children singing" />
+        <img src="https://www.cefonline.com/wp-content/uploads/2023/10/4-Reasons-Why-Sunday-School-is-Important-for-Families.jpg" alt="Kids doing crafts" />
+        <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=300&h=200&fit=crop" alt="Learning classroom" />
+        <img src="https://images.unsplash.com/photo-1535551951406-a19828b0a76b?w=300&h=200&fit=crop" alt="Outdoor activity" />
+      </div>
+    </section>
+
+     <div id="chatbot-container">
+      <img src="gif.gif" alt="Cute Robot" id="chatbot-avatar" />
+      <div id="chat-window">
+        <div id="chat-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your question..." autocomplete="off" />
+        <button id="send-btn">Send</button>
+      </div>
+     </div>
+
+    <section id="events-section" class="events-section">
+      <h3>Upcoming Events</h3>
+      <div class="event-container">
+        <div class="event-image left">
+          <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=400&h=250&fit=crop" alt="Christmas Celebration" />
+        </div>
+        <div class="event-text right">
+          <h4>Christmas Celebration</h4>
+          <p>Date: December 24, 2025 | Time: 5:00 PM - 8:00 PM</p>
+          <p>Join us for a festive evening of carols, plays, and surprises!</p>
+        </div>
+      </div>
+
+      <div class="event-container reverse">
+        <div class="event-image right">
+          <img src="data:image/jpeg;base64,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"   alt="Easter Fun Day" />
+        </div>
+        <div class="event-text left">
+          <h4>Easter Fun Day</h4>
+          <p>Date: April 12, 2026 | Time: 10:00 AM - 1:00 PM</p>
+          <p>Games, Easter egg hunt, and crafts for all children.</p>
+        </div>
+      </div>
+    </section>
+
+     <section id="about-section" class="about-section">
+      <h3>About Us</h3>
+      <p>Our Sunday School is a nurturing community where children explore faith through storytelling, music, interactive lessons, and creative crafts. Our dedicated volunteers make each session meaningful, fun, and safe!</p>
+    </section>
+
+    <section class="bible-verse">
+      “Train up a child in the way he should go; even when he is old he will not depart from it.”<br />
+      — Proverbs 22:6
+    </section>
+
+    <section id="teachers-section" class="teachers-section">
+      <h3>Our Teachers</h3>
+      <div class="teachers-grid">
+        <div class="teacher-card">
+          <img src="https://img.freepik.com/free-photo/indian-woman-posing-cute-stylish-outfit-camera-smiling_482257-122351.jpg?semt=ais_hybrid&w=740&q=80" alt="Ms. Sarah" />
+          <h4>Ms. Sarah</h4>
+          <p>Music & Songs Teacher</p>
+        </div>
+        <div class="teacher-card">
+          <img src="https://plus.unsplash.com/premium_photo-1682092603230-1ce7cf8ca451?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW5kaWFuJTIwbWFufGVufDB8fDB8fHww" alt="Mr. John" />
+          <h4>Mr. John</h4>
+          <p>Bible Lessons Teacher</p>
+        </div>
+        <div class="teacher-card">
+          <img src="https://media.istockphoto.com/id/1336011452/photo/shot-of-a-mature-businesswoman-using-a-digital-tablet-and-going-through-paperwork-in-a-modern.jpg?s=612x612&w=0&k=20&c=DDWkhL8FM_4YJabPZBxWJr97_4R-CxSeh8OkKuvRu5w=" alt="Ms. Mary" />
+          <h4>Ms. Mary</h4>
+          <p>Arts & Crafts Teacher</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials-section" class="testimonials-section">
+      <h3>What Parents Say</h3>
+      <div class="testimonial-card">
+        <p>"My child loves Sunday School! The lessons are fun and engaging. Highly recommended!" — Priya M.</p>
+      </div>
+      <div class="testimonial-card">
+        <p>"A wonderful community that helps children grow in faith and confidence." — Rohit K.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Contact Us:</p>
+    <p>Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a> | Phone: +91-9876543210</p>
+    <p>123 Church Lane, Community Center, Your City</p>
+    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
