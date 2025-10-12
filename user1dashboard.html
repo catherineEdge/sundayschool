@@ -5,165 +5,311 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sunday School - User Dashboard</title>
 <style>
-  :root {
-    --pastel-purple: #d7d9f2;
-    --pastel-blue: #e4ecf6;
-    --pastel-mint: #cbe6e4;
-    --pastel-pink: #f6dde8;
-    --pastel-peach: #faede7;
-    --pastel-ivory: #f6f1eb;
-  }
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
-    min-height: 100vh;
-    color: #444;
-  }
-  header {
-    background: var(--pastel-purple);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-  }
-  header h1 { margin:0; font-size:2rem; color:#3a4667; font-weight:bold;}
-  header a { text-decoration:none; color:#3a4667; font-weight:bold; font-size:1rem; }
-  .content { max-width: 1000px; margin:2rem auto; padding:0 1rem; }
-  label { font-weight:600; color:#477990; margin-right:10px;}
-  select { font-size:1.05rem; padding:8px 14px; border-radius:10px; border:2px solid var(--pastel-mint);}
-  .section-title { font-size:1.5rem; font-weight:700; color:#527b80; margin:1rem 0 0.8rem; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.4rem; }
-  .card { background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
-          border-radius:18px; padding:1.4rem; display:flex; flex-direction:column; box-shadow:0 5px 15px rgba(50,50,70,0.08);}
-  .card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(80,120,180,0.18);}
-  .card-icon { font-size:2rem; margin-bottom:10px; }
-  .card-title { font-weight:700; font-size:1.1rem; margin-bottom:6px; color:#3a4667;}
-  .card-desc { font-size:0.95rem; margin-bottom:8px; color:#444;}
-  .card-file { font-size:0.9rem; margin-bottom:6px; color:#5a6491; word-break:break-word; }
-  .card-link { text-decoration:none; background:var(--pastel-peach); color:#3a4667; padding:6px 14px; border-radius:12px; font-weight:600; font-size:0.95rem; align-self:flex-start; }
-  .card-link:hover { background:var(--pastel-pink); color:#c54b7b; }
-  .test-form-area { margin-top:1.5rem; padding:1rem; border-radius:14px; background:var(--pastel-blue);}
-  .test-q-block { margin-bottom:1rem; }
-  .test-q-block label { margin-right:6px; }
-  .test-submit-btn { padding:10px 26px; background:var(--pastel-peach); border:none; border-radius:12px; font-weight:bold; cursor:pointer; }
-  .test-submit-btn:hover { background:var(--pastel-pink); color:#ae4879; }
-  .test-score-result { margin-top:1rem; font-weight:bold; color:#447799; font-size:1.1rem; text-align:center;}
+:root {
+  --pastel-purple: #d7d9f2;
+  --pastel-blue: #e4ecf6;
+  --pastel-mint: #cbe6e4;
+  --pastel-pink: #f6dde8;
+  --pastel-peach: #faede7;
+  --pastel-ivory: #f6f1eb;
+}
+body {
+  margin:0; font-family:'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+  min-height:100vh; color:#444;
+}
+header {
+  background: var(--pastel-purple);
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+  display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem;
+}
+header h1 { margin:0; font-size:2rem; color:#3a4667; font-weight:bold;}
+header a { text-decoration:none; color:#3a4667; font-weight:bold; font-size:1rem; }
+.content { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+label { font-weight:600; color:#477990; margin-right:10px; }
+select, input { font-size:1.05rem; padding:8px 14px; border-radius:10px; border:2px solid var(--pastel-mint); margin-bottom:10px; width:100%; box-sizing:border-box; }
+.section-title { font-size:1.5rem; font-weight:700; color:#527b80; margin:1rem 0 0.8rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.4rem; }
+.card { background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
+      border-radius:18px; padding:1.4rem; display:flex; flex-direction:column; box-shadow:0 5px 15px rgba(50,50,70,0.08); transition: all 0.2s ease; }
+.card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(80,120,180,0.18); }
+.card-icon { font-size:2rem; margin-bottom:10px; }
+.card-title { font-weight:700; font-size:1.1rem; margin-bottom:6px; color:#3a4667;}
+.card-desc { font-size:0.95rem; margin-bottom:8px; color:#444;}
+.card-buttons { display:flex; gap:8px; }
+.card-btn { text-decoration:none; padding:6px 12px; border-radius:10px; font-weight:600; font-size:0.9rem; cursor:pointer; border:none; }
+.preview-btn { background:#6da4fa; color:#fff; }
+.preview-btn:hover { background:#4b7ccc; }
+.download-btn { background:var(--pastel-peach); color:#3a4667; }
+.download-btn:hover { background:var(--pastel-pink); color:#ae4879; }
+
+.test-form-area { margin-top:1.5rem; padding:1rem; border-radius:14px; background:var(--pastel-blue);}
+.test-q-block { margin-bottom:1rem; }
+.test-q-block label { margin-right:6px; }
+.test-submit-btn { padding:10px 26px; background:var(--pastel-peach); border:none; border-radius:12px; font-weight:bold; cursor:pointer; transition: all 0.2s ease; }
+.test-submit-btn:hover { background:var(--pastel-pink); color:#ae4879; }
+.test-score-result { margin-top:1rem; font-weight:bold; color:#447799; font-size:1.1rem; text-align:center; }
+
+.search-bar { margin-bottom:15px; padding:8px 12px; border-radius:10px; border:2px solid var(--pastel-mint); width:100%; box-sizing:border-box; font-size:1rem; }
+.no-result { color:#ae4879; font-style:italic; }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+.modal-content {
+  position: relative;
+  background: white;
+  margin: 3% auto;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 900px;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.modal iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px; right: 20px;
+  background: #fa6d6d;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 4px 10px;
+}
+.close-btn:hover { background: #c54b7b; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Sunday School</h1>
-    <a href="index.html">home</a>
-  <a href="login1.html">👤 Login</a>
+<h1>Sunday School</h1>
+<nav>
+<a href="index.html">🏠 Home</a> &nbsp;|&nbsp;
+<a href="login1.html">👤 Login</a>
+</nav>
 </header>
 
 <div class="content">
-  <h2>Your Learning Dashboard</h2>
-  <label for="book-select">Select Book:</label>
-  <select id="book-select"><option value="">-- Select a book --</option></select>
+<h2>Your Learning Dashboard</h2>
+<label for="book-select">Select Book:</label>
+<select id="book-select"><option value="">-- Select a book --</option></select>
 
-  <section class="worksheets-section">
-    <div class="section-title">Worksheets</div>
-    <div id="worksheet-grid" class="grid">Select a book to see worksheets.</div>
-  </section>
+<section class="worksheets-section">
+<div class="section-title">📘 Worksheets</div>
+<input type="text" id="ws-search" class="search-bar" placeholder="Search worksheet by title..." style="display:none;">
+<div id="worksheet-grid" class="grid">Select a book to see worksheets.</div>
+</section>
 
-  <section class="tests-section">
-    <div class="section-title">Tests</div>
-    <div id="test-form-area">Select a book to take a test.</div>
-  </section>
+<section class="tests-section">
+<div class="section-title">📝 Tests</div>
+<div id="test-form-area">Select a book to take a test.</div>
+</section>
+</div>
+
+<div id="pdfModal" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">X</button>
+    <iframe id="pdfFrame"></iframe>
+  </div>
 </div>
 
 <script>
-  // ==== JSON DATA STORAGE ====
-  // Admin uploads should store this format in localStorage:
-  // localStorage.setItem('worksheetData', JSON.stringify({...}));
-  // localStorage.setItem('testData', JSON.stringify({...}));
+// ===== BOOK LIST =====
+const books = {
+  old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
+  new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+};
+const bookSelect = document.getElementById('book-select');
+Object.values(books).flat().forEach(book=>{
+  const opt=document.createElement('option');
+  opt.value=book; opt.textContent=book;
+  bookSelect.appendChild(opt);
+});
 
-  const books = {
-    old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
-    new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
-  };
+// ===== MODAL =====
+const modal = document.getElementById('pdfModal');
+const iframe = document.getElementById('pdfFrame');
+const closeModal = document.getElementById('closeModal');
+function openPDF(base64){ iframe.src = base64; modal.style.display = 'block'; }
+closeModal.onclick = ()=>{ modal.style.display = 'none'; iframe.src=''; };
+window.onclick = (e)=>{ if(e.target===modal){ modal.style.display='none'; iframe.src=''; } };
 
-  const bookSelect = document.getElementById('book-select');
-  Object.values(books).flat().forEach(book => {
-    const opt = document.createElement('option');
-    opt.value = book;
-    opt.textContent = book;
-    bookSelect.appendChild(opt);
-  });
+// ===== DATA ACCESS =====
+function getWorksheetData() { return JSON.parse(localStorage.getItem('worksheetData') || '{}'); }
+function getTestData() { return JSON.parse(localStorage.getItem('testData') || '{}'); }
 
-  function getWorksheetData(){ return JSON.parse(localStorage.getItem('worksheetData')||'{}'); }
-  function getTestData(){ return JSON.parse(localStorage.getItem('testData')||'{}'); }
+// ===== SHOW WORKSHEETS =====
+const wsGrid = document.getElementById('worksheet-grid');
+const wsSearch = document.getElementById('ws-search');
 
-  function showWorksheets(book){
-    const grid = document.getElementById('worksheet-grid');
-    grid.innerHTML='';
-    if(!book){ grid.textContent='Select a book to see worksheets.'; return; }
-    const wsData = getWorksheetData();
-    if(!wsData[book] || wsData[book].length===0){ grid.textContent=`No worksheets for ${book}.`; return; }
-    wsData[book].forEach(ws=>{
-      const card = document.createElement('div');
-      card.className='card';
-      card.innerHTML=`
-        <div class="card-icon">${ws.icon||'📄'}</div>
-        <div class="card-title">${ws.title||'Untitled'}</div>
-        <div class="card-desc">${ws.desc||''}</div>
-        ${ws.fileUrl ? `<div class="card-file">File: ${ws.fileName}</div><a class="card-link" href="${ws.fileUrl}" download>Download</a>` : ''}
-      `;
-      grid.appendChild(card);
-    });
+function showWorksheets(book, filter=''){
+  wsGrid.innerHTML='';
+  if(!book){ wsGrid.textContent='Select a book to see worksheets.'; wsSearch.style.display='none'; return; }
+
+  const wsData = getWorksheetData()[book] || [];
+  wsSearch.style.display = wsData.length>0 ? 'block':'none';
+  const filtered = wsData.filter(ws => ws.title.toLowerCase().includes(filter.toLowerCase()));
+
+  if(filtered.length===0){
+    wsGrid.innerHTML='<div class="no-result">No related files found.</div>';
+    return;
   }
 
-  function showTestForm(book){
-    const area = document.getElementById('test-form-area');
-    area.innerHTML='';
-    if(!book){ area.textContent='Select a book to take a test.'; return; }
-    const testData = getTestData();
-    if(!testData[book] || testData[book].length===0){ area.textContent=`No test available for ${book}.`; return; }
+  filtered.forEach(ws=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML = `
+      <div class="card-icon">📄</div>
+      <div class="card-title">${ws.title}</div>
+      <div class="card-buttons">
+        <button class="card-btn preview-btn">Preview</button>
+        <a class="card-btn download-btn" href="${ws.url}" download="${ws.title}.pdf">Download</a>
+      </div>
+    `;
+    card.querySelector('.preview-btn').onclick = ()=>openPDF(ws.url);
+    wsGrid.appendChild(card);
+  });
+}
+
+wsSearch.addEventListener('input', e=>{
+  showWorksheets(bookSelect.value, e.target.value);
+});
+
+// ===== TEST SECTION =====
+function showTestForm(book){
+  const area = document.getElementById('test-form-area');
+  area.innerHTML='';
+  if(!book){ area.textContent='Select a book to take a test.'; return; }
+  const testData = getTestData()[book] || [];
+  if(testData.length===0){ area.textContent=`No test available for ${book}.`; return; }
+
+  const completedTests = JSON.parse(localStorage.getItem('completedTests') || '{}');
+  if(!completedTests[book]) completedTests[book] = {};
+
+  testData.forEach((group, gIdx)=>{
+    const formWrapper = document.createElement('div');
+    formWrapper.className='test-form-area';
+
+    const groupTitle = document.createElement('h3');
+    groupTitle.textContent = `Test Group: ${group.title}`;
+
+    if(completedTests[book][group.title]){
+      groupTitle.textContent += ' ✅ Completed';
+      const retakeBtn = document.createElement('button');
+      retakeBtn.textContent = 'Retake Test';
+      retakeBtn.className = 'test-submit-btn';
+      retakeBtn.style.marginLeft = '10px';
+      retakeBtn.onclick = ()=> {
+        delete completedTests[book][group.title];
+        localStorage.setItem('completedTests', JSON.stringify(completedTests));
+        showTestForm(book);
+      };
+      groupTitle.appendChild(retakeBtn);
+      formWrapper.appendChild(groupTitle);
+      area.appendChild(formWrapper);
+      return;
+    }
+
+    formWrapper.appendChild(groupTitle);
 
     const form = document.createElement('form');
-    form.className='test-form-area';
-    testData[book].forEach((q,idx)=>{
-      const block = document.createElement('div');
-      block.className='test-q-block';
+    group.questions.forEach((q, idx)=>{
+      const block = document.createElement('div'); block.className='test-q-block';
       if(q.type==='mcq'){
-        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div>` +
-        q.options.map((opt,i)=>`<label><input type="radio" name="mcq${idx}" value="${i+1}" required> ${opt}</label>`).join(' ');
-      }else{
-        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div>
-        <input type="text" name="txt${idx}" required>`;
+        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div>`+
+        q.options.map((opt,i)=>`<label><input type="radio" name="q${gIdx}_${idx}" value="${i+1}" required> ${opt}</label>`).join(' ');
+      } else {
+        block.innerHTML=`<div><b>Q${idx+1}:</b> ${q.question}</div><input type="text" name="q${gIdx}_${idx}" required>`;
       }
       form.appendChild(block);
     });
-    form.innerHTML+=`<button class="test-submit-btn" type="submit">Submit Test</button>
-      <div id="test-score-result" class="test-score-result"></div>`;
-    area.appendChild(form);
+
+    form.innerHTML += `<button class="test-submit-btn" type="submit">Submit Test</button>
+      <div id="test-score-result-${gIdx}" class="test-score-result"></div>`;
+    formWrapper.appendChild(form);
+    area.appendChild(formWrapper);
 
     form.addEventListener('submit', e=>{
       e.preventDefault();
-      let score=0,total=testData[book].length;
-      testData[book].forEach((q,idx)=>{
+      const latestGroup = getTestData()[book][gIdx];
+      let score=0; const total=latestGroup.questions.length;
+      let allCorrect = true;
+
+      latestGroup.questions.forEach((q,idx)=>{
+        const val = form.querySelector(`[name="q${gIdx}_${idx}"]`);
         if(q.type==='mcq'){
-          const val=form.querySelector(`[name="mcq${idx}"]:checked`);
-          if(val && val.value==q.correctOption) score++;
-        }else{
-          const val=form.querySelector(`[name="txt${idx}"]`).value.trim().toLowerCase();
-          if(val===q.answer.trim().toLowerCase()) score++;
+          const labels = form.querySelectorAll(`[name="q${gIdx}_${idx}"]`);
+          labels.forEach(input=>{
+            const parent = input.parentNode;
+            parent.style.fontWeight = 'normal';
+            parent.style.color = 'black';
+          });
+          if(val && parseInt(val.value)===parseInt(q.correctOption)){
+            score++;
+          } else {
+            allCorrect = false;
+            // Highlight correct/incorrect options
+            labels.forEach(input=>{
+              const parent = input.parentNode;
+              if(input.value==q.correctOption){
+                parent.style.color='green';
+                parent.style.fontWeight='bold';
+              } else if(input.checked){
+                parent.style.color='red';
+                parent.style.fontWeight='bold';
+              }
+            });
+          }
+        } else {
+          if(val.value.trim().toLowerCase()===q.answer.trim().toLowerCase()){
+            score++;
+          } else {
+            allCorrect = false;
+            val.style.border='2px solid red';
+          }
         }
       });
-      form.querySelector("#test-score-result").textContent=`Your Score: ${score} / ${total}`;
+
+      const percent = Math.round((score/total)*100);
+      const suggestion = percent>=80?'🎉 Excellent! Keep it up.':'💡 Review the material and try again.';
+      form.querySelector(`#test-score-result-${gIdx}`).textContent=`✅ Your Score: ${score} / ${total} (${percent}%) | ${suggestion}`;
+
+      if(allCorrect) completedTests[book][group.title] = true;
+      localStorage.setItem('completedTests', JSON.stringify(completedTests));
+      showTestForm(book);
     });
-  }
-
-  bookSelect.addEventListener('change', ()=>{
-    const book=bookSelect.value;
-    showWorksheets(book);
-    showTestForm(book);
   });
-</script>
+}
 
+bookSelect.addEventListener('change', ()=>{
+  const book = bookSelect.value;
+  wsSearch.value='';
+  showWorksheets(book);
+  showTestForm(book);
+});
+
+window.addEventListener('storage', ()=>{
+  const book = bookSelect.value;
+  if(book){
+    showWorksheets(book, wsSearch.value);
+    showTestForm(book);
+  }
+});
+</script>
 </body>
 </html>

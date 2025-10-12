@@ -103,13 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     chatMessages.insertAdjacentHTML('beforeend', `<div style="text-align:right;">You: ${escapeHtml(text)}</div>`);
 
-    let reply = "I'm listening!";
+    let reply = "i dont recognize ";
     const lower = text.toLowerCase();
     if (lower.includes('worksheet')) reply = "for worksheet you must login first then select a book as the admin uploded you will have both test and worksheet uploded.";
         if (lower.includes('download')) reply = "you can click on download button to see worksheet for each book";
         if (lower.includes('book')) reply = "each book can have multiple worsheet according to the stories";
     if (lower.includes('login')) reply = "You can login using the button in the top right.";
-    if (lower.includes('ameer')) reply = "a best friend.";
+    if (lower.includes('worksheet not')) reply = "contact 9887654392.";
     if (lower.includes('pain')) reply = "Christ is with you.";
     if (lower.includes('manya')) reply = "hi manya.";
     if (lower.includes('verse')) reply = "The just shall live by faith.";

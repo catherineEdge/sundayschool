@@ -1,372 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard - Worksheet Upload</title>
-  <style>
-    :root {
-      --pastel-purple: #d7d9f2;
-      --pastel-blue: #e4ecf6;
-      --pastel-mint: #cbe6e4;
-      --pastel-pink: #f6dde8;
-      --pastel-peach: #faede7;
-      --pastel-ivory: #f6f1eb;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
-      min-height: 100vh;
-      color: #444;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      background: var(--pastel-purple);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-    }
-    .header-left h1 {
-      margin: 0;
-      color: #3a4667;
-      font-size: 2rem;
-      font-weight: bold;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-    nav ul {
-      display: flex;
-      gap: 2rem;
-      margin: 0;
-      list-style: none;
-      padding: 0;
-    }
-    nav a {
-      text-decoration: none;
-      color: #527b80;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: color 0.3s;
-    }
-    nav a:hover {
-      color: #f06da6;
-    }
-    .login-box {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      cursor: pointer;
-      color: #3a4667;
-      font-weight: bold;
-      font-size: 1.1rem;
-      background: var(--pastel-mint);
-      padding: 6px 14px;
-      border-radius: 18px;
-      transition: background 0.2s;
-      text-decoration: none;
-    }
-    .login-box:hover {
-      background: var(--pastel-pink);
-    }
-
-.main-content-area {
-  flex: 1 1 auto;
-  padding: 2.2rem 1.7rem;
-  width: 60%;          /* Increase the width here */
-  max-width: 1000px;   /* Optional: limit maximum width */
-  margin: 2rem auto 3rem;
-  background: rgba(255,255,255,0.92);
-  border-radius: 18px;
-  box-shadow: 0 6px 24px rgba(120,102,80,0.11);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Worksheet Dashboard</title>
+<style>
+:root {
+  --pastel-purple: #d7d9f2; --pastel-blue: #e4ecf6; --pastel-mint: #cbe6e4;
+  --pastel-pink: #f6dde8; --pastel-peach: #faede7; --pastel-ivory: #f6f1eb;
 }
-    .admin-title {
-      text-align: center;
-      color: #97b7d3;
-      font-size: 1.7rem;
-      font-weight: 700;
-      margin-bottom: 1.2rem;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.3rem;
-    }
-    label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #477990;
-      font-size: 1rem;
-    }
-    select, input[type="text"], textarea, input[type="file"] {
-      font-size: 1.02rem;
-      border-radius: 10px;
-      border: 2px solid var(--pastel-mint);
-      padding: 9px 13px;
-      background: #fff;
-      width: 100%;
-      color: #527b80;
-      box-sizing: border-box;
-    }
-    select:focus, input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--pastel-pink);
-    }
-    textarea {
-      min-height: 60px;
-      resize: vertical;
-    }
-    .upload-btn {
-      background: var(--pastel-mint);
-      color: #3a4667;
-      border: none;
-      border-radius: 15px;
-      padding: 10px 0;
-      font-size: 1.08rem;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
-      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.07);
-    }
-    .upload-btn:hover {
-      background: var(--pastel-pink);
-      color: #ae4879;
-    }
-    .worksheet-preview-section {
-      text-align: center;
-      margin: 2.5rem auto 0;
-      max-width: 900px;
-    }
-    .worksheet-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.3rem;
-    }
-    .worksheet-card {
-      position: relative;
-      background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%);
-      border-radius: 20px;
-      box-shadow: 0 5px 12px rgba(0,0,0,0.10);
-      padding: 1.3rem 1.2rem 1.2rem 1.2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      transition: transform 0.22s;
-      overflow: hidden;
-      animation: fadeInCard 1.1s cubic-bezier(.68,-0.55,.27,1.55);
-    }
-    .worksheet-card:hover {
-      transform: translateY(-8px) scale(1.03);
-      box-shadow: 0 12px 28px rgba(80,120,200,0.16);
-    }
-    @keyframes fadeInCard {
-      from { transform: translateY(28px) scale(0.96); opacity: 0; }
-      to   { transform: translateY(0) scale(1); opacity: 1; }
-    }
-    .worksheet-icon { font-size: 2rem; margin-bottom: 0.5rem; color: #527b80; }
-    .worksheet-title { font-size: 1.08rem; font-weight: 600; color: #477990; margin-bottom: 0.28rem; }
-    .worksheet-desc { font-size: 0.97rem; color: #444; margin-bottom: 0.6rem; }
-    .worksheet-file { font-size: 0.98rem; color: #5a6491; margin-bottom: 0.5rem; margin-top: 0.2rem; word-break: break-all; }
-    .worksheet-link {
-      display: inline-block;
-      margin-top: auto;
-      background: var(--pastel-peach);
-      color: #3a4667;
-      text-decoration: none;
-      padding: 7px 16px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: background 0.2s, color 0.2s;
-      box-shadow: 0 1px 8px rgba(210, 150, 150, 0.09);
-    }
-    .worksheet-link:hover { background: var(--pastel-pink); color: #c54b7b; }
-    .remove-btn {
-      background: #f06da6;
-      color: #fff;
-      border: none;
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      margin-top: 5px;
-      transition: background 0.2s;
-    }
-    .remove-btn:hover { background: #c54b7b; }
-    footer { background: var(--pastel-peach); padding: 2rem 1rem 1rem 1rem; color: #555; text-align: center; font-size: 1.06rem; border-top: 1px solid #ececec; }
-    footer p { margin-bottom: 0.3em; margin-top: 0.3em; }
-  </style>
+body { margin:0; font-family:'Segoe UI',Arial,sans-serif;
+  background: linear-gradient(to right, var(--pastel-purple), var(--pastel-blue), var(--pastel-mint), var(--pastel-pink), var(--pastel-peach), var(--pastel-ivory));
+  min-height:100vh; color:#444; }
+header { background: var(--pastel-purple); box-shadow:0 2px 8px rgba(0,0,0,0.06); display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; }
+header h1 { margin:0; font-size:2rem; color:#3a4667; font-weight:bold; }
+header a { text-decoration:none; color:#3a4667; font-weight:bold; font-size:1rem; }
+.content { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+label { font-weight:600; color:#477990; margin-right:10px; }
+select, input { font-size:1.05rem; padding:8px 14px; border-radius:10px; border:2px solid var(--pastel-mint); margin-bottom:10px; width:100%; box-sizing:border-box; }
+button, .preview-btn { padding:8px 14px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; margin-left:6px; text-decoration:none; display:inline-block; }
+.add-btn { background:var(--pastel-peach); }
+.add-btn:hover { background:var(--pastel-pink); color:#ae4879; }
+.section-title { font-size:1.5rem; font-weight:700; color:#527b80; margin:1rem 0 0.8rem; }
+.worksheet-list { margin-top:1rem; }
+.worksheet-item { background: linear-gradient(120deg, var(--pastel-mint) 55%, var(--pastel-blue) 100%); border-radius:14px; padding:10px; margin-bottom:15px; box-shadow:0 4px 12px rgba(50,50,70,0.08); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+.worksheet-buttons { display:flex; gap:6px; }
+.delete-btn { background:#fa6d6d; color:#fff; padding:4px 10px; border-radius:8px; cursor:pointer; }
+.delete-btn:hover { background:#c54b7b; }
+.preview-btn { background:#6da4fa; color:#fff; padding:4px 10px; border-radius:8px; cursor:pointer; }
+.preview-btn:hover { background:#4b7ccc; }
+
+/* Modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+.modal-content {
+  position: relative;
+  background: white;
+  margin: 3% auto;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 900px;
+  height: 80%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+}
+.modal iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: #fa6d6d;
+  color: #fff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 4px 10px;
+}
+.close-btn:hover { background: #c54b7b; }
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <h1>Sunday School Admin</h1>
-    </div>
-    <div class="header-right">
-      <nav>
-        <ul>
-          <li><a href="admin-1dashboard.html">admin dashboard</a></li>
-          <li><a href="index.html">home</a></li>
-        
-        </ul>
-      </nav>
-      <a href="login1.html" class="login-box">👤 Admin</a>
-    </div>
-  </header>
 
-  <div class="main-content-area">
-    <h2 class="admin-title">Upload Worksheet</h2>
-    <form id="worksheet-upload-form">
-      <div>
-        <label for="testament">Choose Testament:</label>
-        <select id="testament" required>
-          <option value="">-- Select Testament --</option>
-          <option value="old">Old Testament</option>
-          <option value="new">New Testament</option>
-        </select>
-      </div>
-      <div>
-        <label for="book">Choose Book:</label>
-        <select id="book" required>
-          <option value="">-- Select Book --</option>
-        </select>
-      </div>
-      <div>
-        <label for="icon">Worksheet Icon:</label>
-        <select id="icon">
-          <option value="📄" selected>📄 Document</option>
-          <option value="📝">📝 Writing</option>
-          <option value="🖊">🖊 Pencil</option>
-          <option value="🎨">🎨 Art</option>
-        </select>
-      </div>
-      <div>
-        <label for="title">Worksheet Title:</label>
-        <input type="text" id="title" required>
-      </div>
-      <div>
-        <label for="desc">Description:</label>
-        <textarea id="desc"></textarea>
-      </div>
-      <div>
-        <label for="file">Upload File:</label>
-        <input type="file" id="file">
-      </div>
-      <button type="submit" class="upload-btn">Upload Worksheet</button>
-    </form>
+<header>
+<h1>Admin Dashboard - Worksheets</h1>
+<nav>
+<a href="index.html">🏠 Home</a> &nbsp;|&nbsp;
+<a href="user1dashboard.html">👤 User Dashboard</a>
+</nav>
+</header>
 
-    <div class="worksheet-preview-section">
-      <h2>Worksheets Preview</h2>
-      <div id="worksheet-grid" class="worksheet-grid">
-        Select a book to view worksheets preview here.
-      </div>
-    </div>
+<div class="content">
+<div class="section-title">Upload New Worksheet</div>
+<label for="book-select">Select Book:</label>
+<select id="book-select"><option value="">-- Select a book --</option></select>
+
+<label for="worksheet-title">Worksheet Title:</label>
+<input type="text" id="worksheet-title" placeholder="Enter worksheet title">
+
+<label for="worksheet-file">Upload PDF:</label>
+<input type="file" id="worksheet-file" accept="application/pdf">
+
+<button id="save-worksheet" class="add-btn">💾 Save Worksheet</button>
+
+<div class="section-title">Existing Worksheets</div>
+<div id="existing-worksheets" class="worksheet-list"></div>
+</div>
+
+<!-- Modal for preview -->
+<div id="pdfModal" class="modal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">X</button>
+    <iframe id="pdfFrame"></iframe>
   </div>
+</div>
 
-  <footer>
-    <p>Contact Us: Email: <a href="mailto:sundayschool@example.com">sundayschool@example.com</a> &nbsp; | &nbsp; Phone: +91-9876543210</p>
-    <p>123 Church Lane, Community Center, Your City</p>
-    <p>&copy; 2025 Sunday School. All Rights Reserved.</p>
-  </footer>
+<script>
+// ===== BOOK LIST =====
+const books = {
+  old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
+  new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+};
+const bookSelect = document.getElementById('book-select');
+Object.values(books).flat().forEach(book=>{
+  const opt=document.createElement('option');
+  opt.value=book; opt.textContent=book;
+  bookSelect.appendChild(opt);
+});
 
-  <script>
-    const books = {
-      old: ["Genesis","Exodus","Leviticus","Numbers","Deuteronomy","Joshua","Judges","Ruth","1 Samuel","2 Samuel"],
-      new: ["Matthew","Mark","Luke","John","Acts","Romans","1 Corinthians","2 Corinthians","Galatians","Ephesians"]
+// ===== LOAD WORKSHEETS =====
+let worksheets = JSON.parse(localStorage.getItem('worksheetData') || '{}');
+function saveWorksheetsToLocalStorage() {
+  localStorage.setItem('worksheetData', JSON.stringify(worksheets));
+  window.dispatchEvent(new Event("storage"));
+}
+
+// ===== DISPLAY WORKSHEETS =====
+function showExistingWorksheets(book){
+  const container = document.getElementById('existing-worksheets');
+  container.innerHTML='';
+  if(!book || !worksheets[book] || worksheets[book].length===0){
+    container.textContent='No worksheets for this book.';
+    return;
+  }
+  worksheets[book].forEach((ws,idx)=>{
+    const wsDiv=document.createElement('div');
+    wsDiv.className='worksheet-item';
+    const titleSpan=document.createElement('span');
+    titleSpan.innerHTML=`<b>${ws.title}</b>`;
+    const btnDiv=document.createElement('div');
+    btnDiv.className='worksheet-buttons';
+
+    const previewBtn=document.createElement('button');
+    previewBtn.className='preview-btn';
+    previewBtn.textContent='Preview';
+    previewBtn.onclick=()=>{
+      openPDF(ws.url);
     };
 
-    let worksheetData = {};
+    const deleteBtn=document.createElement('button');
+    deleteBtn.className='delete-btn';
+    deleteBtn.textContent='Delete';
+    deleteBtn.onclick=()=>{
+      worksheets[book].splice(idx,1);
+      saveWorksheetsToLocalStorage();
+      showExistingWorksheets(book);
+    };
 
-    const testamentSelect = document.getElementById('testament');
-    const bookSelect = document.getElementById('book');
-    const worksheetGrid = document.getElementById('worksheet-grid');
+    btnDiv.appendChild(previewBtn);
+    btnDiv.appendChild(deleteBtn);
+    wsDiv.appendChild(titleSpan);
+    wsDiv.appendChild(btnDiv);
+    container.appendChild(wsDiv);
+  });
+}
 
-    testamentSelect.addEventListener('change', function() {
-      bookSelect.innerHTML = '<option value="">-- Select Book --</option>';
-      if (this.value && books[this.value]) {
-        books[this.value].forEach(book => {
-          const opt = document.createElement('option');
-          opt.value = book;
-          opt.textContent = book;
-          bookSelect.appendChild(opt);
-        });
-      }
-      updatePreview();
-    });
+// ===== SAVE NEW WORKSHEET =====
+document.getElementById('save-worksheet').addEventListener('click', ()=>{
+  const book=bookSelect.value.trim();
+  const title=document.getElementById('worksheet-title').value.trim();
+  const fileInput=document.getElementById('worksheet-file');
+  const file=fileInput.files[0];
 
-    bookSelect.addEventListener('change', updatePreview);
+  if(!book){ alert('Select a book!'); return; }
+  if(!title){ alert('Enter a title!'); return; }
+  if(!file){ alert('Select a PDF file!'); return; }
+  if(file.type!=='application/pdf'){ alert('Only PDF allowed!'); return; }
 
-    document.getElementById('worksheet-upload-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const book = bookSelect.value;
-      const icon = document.getElementById('icon').value;
-      const title = document.getElementById('title').value.trim();
-      const desc = document.getElementById('desc').value.trim();
-      const fileInput = document.getElementById('file');
-      const file = fileInput.files[0];
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64 = e.target.result;
+    if(!worksheets[book]) worksheets[book] = [];
+    worksheets[book].push({ title, url: base64, date: new Date().toISOString().split('T')[0] });
+    saveWorksheetsToLocalStorage();
+    document.getElementById('worksheet-title').value='';
+    fileInput.value='';
+    showExistingWorksheets(book);
+    alert('Worksheet saved successfully!');
+  };
+  reader.readAsDataURL(file);
+});
 
-      if (!book) { alert("Please select a book!"); return; }
+// ===== PREVIEW MODAL LOGIC =====
+const modal = document.getElementById('pdfModal');
+const iframe = document.getElementById('pdfFrame');
+const closeModal = document.getElementById('closeModal');
 
-      if (!worksheetData[book]) worksheetData[book] = [];
-      let fileUrl = "";
-      let fileName = "";
+function openPDF(base64){
+  iframe.src = base64;
+  modal.style.display = 'block';
+}
 
-      if (file) {
-        fileUrl = URL.createObjectURL(file);
-        fileName = file.name;
-      }
-worksheetData[book].push({icon, title, desc, fileUrl, fileName});
+closeModal.onclick = ()=> {
+  modal.style.display = 'none';
+  iframe.src = ''; // clear for memory
+};
 
-// Save to localStorage
-localStorage.setItem('worksheetData', JSON.stringify(worksheetData));
+window.onclick = (e)=>{
+  if(e.target===modal){
+    modal.style.display = 'none';
+    iframe.src = '';
+  }
+};
 
-this.reset();
-updatePreview(book);
-alert("Worksheet uploaded for " + book + "!");
-
-    });
-
-    function updatePreview(selectedBook = "") {
-      worksheetGrid.innerHTML = "";
-      selectedBook = selectedBook || bookSelect.value;
-
-      if (selectedBook && worksheetData[selectedBook] && worksheetData[selectedBook].length) {
-        worksheetData[selectedBook].forEach((ws, index) => {
-          const card = document.createElement('div');
-          card.className = "worksheet-card";
-          card.innerHTML = `
-            <div class="worksheet-icon">${ws.icon}</div>
-            <div class="worksheet-title">${ws.title}</div>
-            <div class="worksheet-desc">${ws.desc}</div>
-            ${ws.fileUrl ? `<div class="worksheet-file">File: ${ws.fileName}</div>
-              <a href="${ws.fileUrl}" class="worksheet-link" download>Download</a>` : ''}
-            <button class="remove-btn" data-index="${index}">Remove</button>
-          `;
-          worksheetGrid.appendChild(card);
-        });
-
-        // Attach remove button events
-        document.querySelectorAll('.remove-btn').forEach(btn => {
-          btn.addEventListener('click', function() {
-            const idx = this.dataset.index;
-            worksheetData[selectedBook].splice(idx, 1);
-            updatePreview(selectedBook);
-          });
-        });
-
-      } else if (selectedBook) {
-        worksheetGrid.innerHTML = `No worksheets yet for ${selectedBook}.`;
-      } else {
-        worksheetGrid.innerHTML = `Select a book to view worksheets preview here.`;
-      }
-    }
-  </script>
+// ===== ON BOOK CHANGE =====
+bookSelect.addEventListener('change',()=>{
+  document.getElementById('worksheet-title').value='';
+  document.getElementById('worksheet-file').value='';
+  showExistingWorksheets(bookSelect.value);
+});
+</script>
 </body>
 </html>
